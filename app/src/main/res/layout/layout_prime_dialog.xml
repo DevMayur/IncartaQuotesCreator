@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
+    android:id="@+id/layout_close_dialog"
+    android:tag="layout/dialog_in_app_combo_offer_0"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo" />
+
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:id="@id/layout_main"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginRight="10.0dip">
+
+            <TextView android:textSize="20.0sp"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="PREMIUM OFFER!"
+                android:textAllCaps="true" />
+
+            <TextView android:textSize="16.0sp"
+                android:textColor="@color/grey"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text=" Get all the Premium Features!" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40.0dip"
+                android:layout_marginTop="20.0dip">
+
+                <ImageView
+                    android:layout_width="25.0dip"
+                    android:layout_height="25.0dip"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_menu_right"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:textSize="16.0sp"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="No ads" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="40.0dip">
+
+                <ImageView
+                    android:layout_width="25.0dip"
+                    android:layout_height="25.0dip"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_menu_right"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView
+                    android:textSize="16.0sp"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="Large app screen" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="40.0dip">
+
+                <ImageView
+                    android:layout_width="25.0dip"
+                    android:layout_height="25.0dip"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_menu_right"
+                    tools:ignore="VectorDrawableCompat" />
+
+                <TextView android:textSize="16.0sp"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="No watermark on Saved and Shared Quotes" />
+
+            </LinearLayout>
+
+            <Button android:textSize="18.0sp"
+                android:textColor="@android:color/white"
+                android:id="@+id/btn_in_app_premium_upgrade"
+                android:background="#ff00bfff"
+                android:layout_width="fill_parent"
+                android:layout_height="40.0dip"
+                android:layout_marginLeft="40.0dip"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginRight="40.0dip"
+                android:text="Premium Upgrade"
+                android:textAllCaps="false" />
+
+            <LinearLayout android:orientation="vertical"
+                android:background="#ffeeeeee"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip">
+
+                <TextView android:textSize="16.0sp"
+                    android:textColor="@color/lightBlack"
+                    android:gravity="center"
+                    android:paddingLeft="10.0dip"
+                    android:paddingRight="10.0dip"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40.0dip"
+                    android:layout_marginTop="10.0dip"
+                    android:layout_marginRight="40.0dip"
+                    android:text="Ads helps us to keep this app free and watermark for branding." />
+
+                <Button android:textSize="18.0sp"
+                    android:textColor="@android:color/white"
+                    android:id="@+id/btn_skip_in_app"
+                    android:background="#ffaaaaaa"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40.0dip"
+                    android:layout_marginLeft="40.0dip"
+                    android:layout_marginTop="20.0dip"
+                    android:layout_marginRight="40.0dip"
+                    android:layout_marginBottom="20.0dip"
+                    android:text="Cancel"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

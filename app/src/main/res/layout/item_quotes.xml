@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:tag="layout/activity_premium_features_0"
+    android:background="@android:color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <FrameLayout
+        android:id="@+id/status_bar"
+        android:background="@color/lightBlack"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Light">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:elevation="0dp"
+            app:navigationIcon="@drawable/ic_menu_back"
+            app:theme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:layout_gravity="center"
+                android:id="@+id/cv_remove_ads"
+                android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50.0dip"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginRight="50.0dip"
+                android:layout_marginBottom="10.0dip"
+                app:cardBackgroundColor="#fff46f25"
+                app:cardCornerRadius="5.0dip">
+
+                <LinearLayout android:gravity="center"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_in_app_remove_ads"
+                        android:layout_width="30.0dip"
+                        android:layout_height="30.0dip"
+                        android:layout_marginTop="10.0dip"
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_favorite_black" />
+
+                    <TextView
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@android:color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10.0dip"
+                        android:layout_marginBottom="10.0dip"
+                        android:text="Remove Ads"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_gravity="center"
+                android:id="@+id/cv_remove_watermark"
+                android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="50.0dip"
+                android:layout_marginBottom="10.0dip"
+                app:cardBackgroundColor="#fff46f25"
+                app:cardCornerRadius="5.0dip">
+
+                <LinearLayout android:gravity="center"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_in_app_remove_wm"
+                        android:layout_width="30.0dip"
+                        android:layout_height="30.0dip"
+                        android:layout_marginTop="10.0dip"
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_favorite_black" />
+
+                    <TextView
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@android:color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10.0dip"
+                        android:layout_marginBottom="10.0dip"
+                        android:text="Remove Watermark"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_gravity="center"
+                android:id="@+id/cv_combo"
+                android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="50.0dip"
+                android:layout_marginBottom="10.0dip"
+                app:cardBackgroundColor="#fff46f25"
+                app:cardCornerRadius="5.0dip">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_in_app_combo"
+                        android:layout_width="30.0dip"
+                        android:layout_height="30.0dip"
+                        android:layout_marginTop="10.0dip"
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_favorite_black" />
+
+                    <TextView
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@android:color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10.0dip"
+                        android:layout_marginBottom="10.0dip"
+                        android:text="Combo (Save 25%)"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_restore"
+                android:visibility="visible"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="50.0dip"
+                android:layout_marginBottom="10.0dip"
+                app:cardBackgroundColor="#ff00bfff"
+                app:cardCornerRadius="5.0dip">
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <TextView
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@android:color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10.0dip"
+                        android:layout_marginBottom="10.0dip"
+                        android:text="Restore PURCHASE"
+                        android:textAllCaps="true" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_loading"
+            android:background="@android:color/white"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ProgressBar
+                android:layout_gravity="center"
+                android:id="@+id/pb_loading"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_try_more"
+            android:background="#ff333333"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="40.0dip"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:textColor="@android:color/white"
+                android:gravity="center_vertical"
+                android:id="@+id/tv_try_more"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="0.0dip"
+                android:layout_width="0.0dip"
+                android:layout_height="fill_parent"
+                android:text="No internet connection!"
+                android:layout_weight="1.0" />
+
+            <TextView android:textColor="@android:color/holo_orange_dark"
+                android:gravity="center_vertical"
+                android:id="@+id/tv_retry_more"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="10.0dip"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="RETRY" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blacktext">#000000</color>
+    <color name="textSecondary">#7C7C7C</color>
+    <color name="cardBackgroundInEditor">#03A9F4</color>
+
+
+    <color name="cardBackgroundInEditor1">#1D5E95</color>
+    <color name="cardBackgroundInEditor2">#13D6EB</color>
+    <color name="cardBackgroundInEditor3">#9055F7</color>
+    <color name="cardBackgroundInEditor4">#D60B77</color>
+    <color name="cardBackgroundInEditor5">#7ACB9F</color>
+    <color name="cardBackgroundInEditor6">#158BB2</color>
+    <color name="cardBackgroundInEditor7">#D75A6C</color>
+    <color name="cardBackgroundInEditor8">#F27DBD</color>
+    <color name="cardBackgroundInEditor9">#F07146</color>
+    <color name="cardBackgroundInEditor10">#7EAB1D</color>
+    <color name="cardBackgroundInEditor11">#4F9A9F</color>
+    <color name="cardBackgroundInEditor12">#E707A5</color>
+    <color name="cardBackgroundInEditor13">#4E0698</color>
+    <color name="cardBackgroundInEditor14">#2E5AE1</color>
+    <color name="cardBackgroundInEditor15">#25685D</color>
+    <color name="cardBackgroundInEditor16">#5C5DBB</color>
+    <color name="cardBackgroundInEditor17">#FE6106</color>
+    <color name="cardBackgroundInEditor18">#920363</color>
+    <color name="cardBackgroundInEditor19">#ECB10B</color>
+    <color name="cardBackgroundInEditor20">#0587D5</color>
+    <color name="cardBackgroundInEditor21">#C02642</color>
+    <color name="cardBackgroundInEditor22">#B50DF9</color>
+    <color name="cardBackgroundInEditor23">#E7A1D5</color>
+    <color name="cardBackgroundInEditor24">#673AB7</color>
+
+
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#111422</color>
+
+    <color name="colorPrimaryDark">#111422</color>
+    <color name="colorAccent">#5E35B1</color>
+
+    <color name="background_pressed">#111113</color>
+    <color name="lightBlack">#ff333333</color>
+    <color name="grey">#636363</color>
+
+    <color name="textColor">#FFFFFF</color>
+
+    <color name="background">#262B47</color>
+
+    <color name="button_color">#ffffff</color>
+
+    <color name="white">#111422</color>
+    <color name="black">#FFFFFF</color>
+    <color name="card_bg">#000000</color>
+    <color name="textSecondary">#B1B1B1</color>
+
+
+
+    //for Live Button Animation
+    <color name="dot1">#F4511E</color>
+    <color name="dot2">#D1022F</color>
+    <color name="dot3">#6700FF</color>
+
+    <color name="back">#111113</color>
+</resources>
