@@ -10,12 +10,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.transition.ChangeBounds;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,33 +34,32 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AudienceNetworkAds;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import com.google.android.gms.ads.MobileAds;
 
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
-import com.infideap.drawerbehavior.AdvanceDrawerLayout;
+import com.incarta.quotescreator.database.DataBaseHandler;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
-import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
 import com.yuyakaido.android.cardstackview.StackFrom;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -89,8 +89,13 @@ public class MainActivity extends AppCompatActivity {
     CardStackView cardStackView;
     ArrayList<Quote> quoteList;
     PhotosAdapter quoteAdapter;
+
+    Button tv_categoryHeading;
+    ConstraintLayout rootLayout;
 //    CardStackListener cardStackListener;
 
+    boolean categoriesVisible = false;
+    public static final String TAG = "tagMain";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +103,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MobileAds.initialize(this);
-        AudienceNetworkAds.initialize(this);
+        adView = findViewById(R.id.adView);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         db = new DataBaseHandler(this);
         prf = new PrefManager(this);
@@ -108,13 +121,42 @@ public class MainActivity extends AppCompatActivity {
         //Custom Drawer
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
-//        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        if (drawerLayout != null)
-//        drawerLayout.useCustomBehavior(GravityCompat.START);
-//        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-//        actionBarDrawerToggle.syncState();
         mainTitle = findViewById(R.id.tv_title_main);
+        tv_categoryHeading = findViewById(R.id.tv_categoryHeading);
+        rootLayout = findViewById(R.id.rootLayout);
+        dataList = findViewById(R.id.categoryList);
+
+
+        tv_categoryHeading.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                categoriesVisible = !categoriesVisible;
+                if (!categoriesVisible) {
+                    ConstraintSet set = new ConstraintSet();
+                    set.clone(MainActivity.this, R.layout.activity_main_2);
+                    tv_categoryHeading.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_keyboard_arrow_up_24, 0);
+                    tv_categoryHeading.setText("Categories");
+                    set.applyTo(rootLayout);
+                    Transition transition = new ChangeBounds();
+                    transition.setInterpolator(new LinearInterpolator());
+                    transition.setDuration(300);
+                    TransitionManager.beginDelayedTransition(rootLayout, transition);
+                } else {
+                    ConstraintSet set = new ConstraintSet();
+                    set.clone(MainActivity.this, R.layout.app_bar_main);
+                    tv_categoryHeading.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_keyboard_arrow_down_24, 0);
+                    tv_categoryHeading.setText("Quotes Of The Day");
+                    set.applyTo(rootLayout);
+                    Transition transition = new ChangeBounds();
+                    transition.setInterpolator(new LinearInterpolator());
+                    transition.setDuration(300);
+                    TransitionManager.beginDelayedTransition(rootLayout, transition);
+                }
+            }
+        });
+
+
+
         mainTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,13 +178,9 @@ public class MainActivity extends AppCompatActivity {
         cardStackView.setAdapter(quoteAdapter);
         quoteAdapter.notifyDataSetChanged();
 
-        //db = new DataBaseHandler(this);
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.getBoolean("IS_FIRST_TIME", true)) {
-
             givePermission();
-
             sharedPreferences.edit().putBoolean("IS_FIRST_TIME", false).apply();
         }
 
@@ -153,43 +191,39 @@ public class MainActivity extends AppCompatActivity {
 
         //Adapter Code
         adapter = new CategoriesListAdapter(this, R.layout.category_items,imageArry);
-        dataList = findViewById(R.id.categoryList);
-        dataList.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
+        dataList.setLayoutManager(new GridLayoutManager(this,2));
         dataList.setAdapter(adapter);
-        PagerSnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(dataList);
-
 
 
         //Search Box
-        searchedit = findViewById(R.id.searchedit);
-
-        searchedit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                imageArry.clear();
-
-                List<Category> authors = db.getAllCategories(searchedit.getText());
-                for (Category cn : authors) {
-
-                    imageArry.add(cn);
-                }
-                dataList.setAdapter(adapter);
-
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+//        searchedit = findViewById(R.id.searchedit);
+//
+//        searchedit.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                imageArry.clear();
+//
+//                List<Category> authors = db.getAllCategories(searchedit.getText());
+//                for (Category cn : authors) {
+//
+//                    imageArry.add(cn);
+//                }
+//                dataList.setAdapter(adapter);
+//
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
 
         //Drawer Menu Click Listner
@@ -353,22 +387,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadAds () {
-        if (Config.SHOW_ADS) {
-            if (Config.ADS_NETWORK) {
-                AdView adView = new AdView(this);
-                adView.setAdUnitId(Config.BANNER_ID);
-                adView.setAdSize(com.google.android.gms.ads.AdSize.SMART_BANNER);
-                LinearLayout layout = (LinearLayout) findViewById(R.id.adView);
-                layout.addView(adView);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                adView.loadAd(adRequest);
-            } else {
-                com.facebook.ads.AdView mAdView = new com.facebook.ads.AdView(this, Config.FACEBOOK_BANNER_ID, AdSize.BANNER_HEIGHT_50);
-                LinearLayout adContainer = (LinearLayout) findViewById(R.id.adView);
-                adContainer.addView(mAdView);
-                mAdView.loadAd();
-            }
-        }
+//        if (Config.SHOW_ADS) {
+//            if (Config.ADS_NETWORK) {
+//                AdView adView = new AdView(this);
+//                adView.setAdUnitId(Config.BANNER_ID);
+//                adView.setAdSize(com.google.android.gms.ads.AdSize.SMART_BANNER);
+//                LinearLayout layout = (LinearLayout) findViewById(R.id.adView);
+//                layout.addView(adView);
+//                AdRequest adRequest = new AdRequest.Builder().build();
+//                adView.loadAd(adRequest);
+//            } else {
+//                com.facebook.ads.AdView mAdView = new com.facebook.ads.AdView(this, Config.FACEBOOK_BANNER_ID, AdSize.BANNER_HEIGHT_50);
+//                LinearLayout adContainer = (LinearLayout) findViewById(R.id.adView);
+//                adContainer.addView(mAdView);
+//                mAdView.loadAd();
+//            }
+//        }
     }
 
     private void showAboutDialog() {

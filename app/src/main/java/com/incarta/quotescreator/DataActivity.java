@@ -20,6 +20,8 @@ import androidx.appcompat.widget.SearchView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.incarta.quotescreator.database.DataBaseHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 

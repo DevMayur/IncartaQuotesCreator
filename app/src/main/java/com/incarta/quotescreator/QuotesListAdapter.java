@@ -49,6 +49,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.incarta.quotescreator.database.DataBaseHandler;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 

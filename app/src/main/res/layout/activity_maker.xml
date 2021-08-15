@@ -1140,6 +1140,128 @@
                                     android:layout_height="match_parent"
                                     android:text="Abc" />
                             </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="3dp"
+                                app:cardCornerRadius="5dp"
+                                app:cardBackgroundColor="@color/colorPrimary"
+                                app:cardElevation="0dp">
+
+                                <TextView
+                                    android:textSize="20dp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center"
+                                    android:id="@+id/fontButton17"
+                                    android:background="@color/button_color"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="match_parent"
+                                    android:text="Abc" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="3dp"
+                                app:cardCornerRadius="5dp"
+                                app:cardBackgroundColor="@color/colorPrimary"
+                                app:cardElevation="0dp">
+
+                                <TextView
+                                    android:textSize="20dp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center"
+                                    android:id="@+id/fontButton18"
+                                    android:background="@color/button_color"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="match_parent"
+                                    android:text="Abc" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="3dp"
+                                app:cardCornerRadius="5dp"
+                                app:cardBackgroundColor="@color/colorPrimary"
+                                app:cardElevation="0dp">
+
+                                <TextView
+                                    android:textSize="20dp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center"
+                                    android:id="@+id/fontButton19"
+                                    android:background="@color/button_color"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="match_parent"
+                                    android:text="Abc" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="3dp"
+                                app:cardCornerRadius="5dp"
+                                app:cardBackgroundColor="@color/colorPrimary"
+                                app:cardElevation="0dp">
+
+                                <TextView
+                                    android:textSize="20dp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center"
+                                    android:id="@+id/fontButton20"
+                                    android:background="@color/button_color"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="match_parent"
+                                    android:text="Abc" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="3dp"
+                                app:cardCornerRadius="5dp"
+                                app:cardBackgroundColor="@color/colorPrimary"
+                                app:cardElevation="0dp">
+
+                                <TextView
+                                    android:textSize="20dp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center"
+                                    android:id="@+id/fontButton21"
+                                    android:background="@color/button_color"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="match_parent"
+                                    android:text="Abc" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_margin="3dp"
+                                app:cardCornerRadius="5dp"
+                                app:cardBackgroundColor="@color/colorPrimary"
+                                app:cardElevation="0dp">
+
+                                <TextView
+                                    android:textSize="20dp"
+                                    android:textColor="@color/black"
+                                    android:gravity="center"
+                                    android:id="@+id/fontButton22"
+                                    android:background="@color/button_color"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="match_parent"
+                                    android:text="Abc" />
+                            </androidx.cardview.widget.CardView>
+
+
                         </LinearLayout>
                     </HorizontalScrollView>
 

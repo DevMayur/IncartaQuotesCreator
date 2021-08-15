@@ -19,6 +19,7 @@ import android.preference.PreferenceManager;
 
 import android.util.Log;
 
+import com.incarta.quotescreator.database.DataBaseHandler;
 
 
 /**

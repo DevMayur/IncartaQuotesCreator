@@ -1,5 +1,6 @@
 package com.incarta.quotescreator;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,11 +36,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.InterstitialAdListener;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
@@ -47,6 +43,9 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -169,7 +168,6 @@ public class MakerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 tvEfont.setVisibility(View.VISIBLE);
 
-                final Typeface a18 = Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf");
                 final Typeface a2 = Typeface.createFromAsset(getAssets(), "fonts/1.ttf");
                 final Typeface a3 = Typeface.createFromAsset(getAssets(), "fonts/montserrat_bold.ttf");
                 final Typeface a4 = Typeface.createFromAsset(getAssets(), "fonts/2.ttf");
@@ -187,6 +185,14 @@ public class MakerActivity extends AppCompatActivity {
                 final Typeface a16 = Typeface.createFromAsset(getAssets(), "fonts/14.ttf");
                 final Typeface a17 = Typeface.createFromAsset(getAssets(), "fonts/15.ttf");
 
+
+                final Typeface a18 = Typeface.createFromAsset(getAssets(), "fonts/17.ttf");
+                final Typeface a19 = Typeface.createFromAsset(getAssets(), "fonts/18.ttf");
+                final Typeface a20 = Typeface.createFromAsset(getAssets(), "fonts/19.ttf");
+                final Typeface a21 = Typeface.createFromAsset(getAssets(), "fonts/20.ttf");
+                final Typeface a22 = Typeface.createFromAsset(getAssets(), "fonts/21.ttf");
+                final Typeface a23 = Typeface.createFromAsset(getAssets(), "fonts/22.ttf");
+
                 TextView textView = (TextView) findViewById(R.id.fontButton1);
                 TextView textView2 = (TextView) findViewById(R.id.fontButton2);
                 TextView textView3 = (TextView) findViewById(R.id.fontButton3);
@@ -203,6 +209,12 @@ public class MakerActivity extends AppCompatActivity {
                 TextView textView14 = (TextView) findViewById(R.id.fontButton14);
                 TextView textView15 = (TextView) findViewById(R.id.fontButton15);
                 TextView textView16 = (TextView) findViewById(R.id.fontButton16);
+                TextView textView17 = (TextView) findViewById(R.id.fontButton17);
+                TextView textView18 = (TextView) findViewById(R.id.fontButton18);
+                TextView textView19 = (TextView) findViewById(R.id.fontButton19);
+                TextView textView20 = (TextView) findViewById(R.id.fontButton20);
+                TextView textView21 = (TextView) findViewById(R.id.fontButton21);
+                TextView textView22 = (TextView) findViewById(R.id.fontButton22);
                 Button button = (Button) findViewById(R.id.textFontStyleDoneButton);
                 textView.setTypeface(a2);
                 textView2.setTypeface(a3);
@@ -220,6 +232,12 @@ public class MakerActivity extends AppCompatActivity {
                 textView14.setTypeface(a15);
                 textView15.setTypeface(a16);
                 textView16.setTypeface(a17);
+                textView17.setTypeface(a18);
+                textView18.setTypeface(a19);
+                textView19.setTypeface(a20);
+                textView20.setTypeface(a21);
+                textView21.setTypeface(a22);
+                textView22.setTypeface(a23);
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -316,6 +334,50 @@ public class MakerActivity extends AppCompatActivity {
                         tvMaker.setTypeface(a17);
                     }
                 });
+
+                textView17.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvMaker.setTypeface(a18);
+                    }
+                });
+
+                textView18.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvMaker.setTypeface(a19);
+                    }
+                });
+
+                textView19.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvMaker.setTypeface(a20);
+                    }
+                });
+
+                textView20.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvMaker.setTypeface(a21);
+                    }
+                });
+
+                textView21.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvMaker.setTypeface(a22);
+                    }
+                });
+
+                textView22.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tvMaker.setTypeface(a23);
+                    }
+                });
+
+
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -762,72 +824,34 @@ public class MakerActivity extends AppCompatActivity {
     private void loadFullScreenAds () {
         if (Config.ADS_NETWORK){
             loadAdmobAds();
-        }else {
-            loadFacebookAds();
         }
     }
 
+    InterstitialAd mInterstitialAd;
+
     private void loadAdmobAds () {
-        final com.google.android.gms.ads.InterstitialAd interstitialAd = new com.google.android.gms.ads.InterstitialAd(this);
-        interstitialAd.setAdUnitId(Config.INTER_ID);
-        AdRequest request = new AdRequest.Builder().build();
-        interstitialAd.loadAd(request);
-        interstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                if (interstitialAd.isLoaded()) {
-                    interstitialAd.show();
-                }
-            }
-        });
+        if (Config.ADS_NETWORK) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+            InterstitialAd.load(this,Config.INTER_ID, adRequest,
+                    new InterstitialAdLoadCallback() {
+                        @Override
+                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                            // The mInterstitialAd reference will be null until
+                            // an ad is loaded.
+                            mInterstitialAd = interstitialAd;
+                            mInterstitialAd.show(MakerActivity.this);
+                        }
+
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            // Handle the error
+                            mInterstitialAd = null;
+                        }
+                    });
+        }
     }
 
-    private void loadFacebookAds () {
-        final InterstitialAd interstitialAd = new InterstitialAd(this, Config.FACEBOOK_INTER_ID);
-        // Create listeners for the Interstitial Ad
-        InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
-                // Interstitial ad displayed callback
-                Log.e(TAG, "Interstitial ad displayed.");
-            }
-
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-                // Interstitial dismissed callback
-                Log.e(TAG, "Interstitial ad dismissed.");
-            }
-
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-                Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                // Interstitial ad is loaded and ready to be displayed
-                Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
-                // Show the ad
-                interstitialAd.show();
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Ad clicked callback
-                Log.d(TAG, "Interstitial ad clicked!");
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
-                Log.d(TAG, "Interstitial ad impression logged!");
-            }
-        };
-        interstitialAd.loadAd(
-                interstitialAd.buildLoadAdConfig()
-                        .withAdListener(interstitialAdListener)
-                        .build());
-    }
 
     private void loadAds () {
         if (Config.ADS_NETWORK){
@@ -838,11 +862,6 @@ public class MakerActivity extends AppCompatActivity {
             layout.addView(adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
-        }else{
-            com.facebook.ads.AdView mAdView = new com.facebook.ads.AdView(this, Config.FACEBOOK_BANNER_ID, AdSize.BANNER_HEIGHT_50);
-            LinearLayout adContainer = (LinearLayout) findViewById(R.id.adView);
-            adContainer.addView(mAdView);
-            mAdView.loadAd();
         }
     }
 

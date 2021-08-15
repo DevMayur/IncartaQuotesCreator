@@ -1,4 +1,4 @@
-package com.incarta.quotescreator;
+package com.incarta.quotescreator.database;
 
 /**
  * Created by Amine on 19/08/2015.
@@ -20,11 +20,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.incarta.quotescreator.Category;
+import com.incarta.quotescreator.Quote;
+
 public class DataBaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 1;
 
     // Database Name
     private static final String DATABASE_NAME = "quotes.db";

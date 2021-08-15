@@ -41,8 +41,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
-    implementation 'com.google.android.gms:play-services-ads:19.1.0'
+    implementation 'com.google.android.gms:play-services-ads:20.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
     implementation "android.arch.persistence.room:runtime:1.0.0"
@@ -57,10 +56,9 @@ dependencies {
     implementation 'com.android.billingclient:billing:1.1'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
-    implementation 'com.facebook.android:audience-network-sdk:5.11.0'
-    implementation 'com.facebook.android:facebook-android-sdk:5.0.1'
 
     implementation "com.yuyakaido.android:card-stack-view:2.3.4"
     implementation 'com.mig35:carousellayoutmanager:1.4.6'
 
+    implementation 'com.github.monusk111:NetworkCall:1.0.0'
 }

@@ -7,7 +7,7 @@
     android:focusable="true"
     android:id="@+id/cv_categories"
     android:tag="layout/row_layout_categories_0"
-    android:layout_width="200dp"
+    android:layout_width="match_parent"
     android:layout_height="100.0dip"
     android:layout_marginBottom="20.0dip"
     android:layout_marginStart="12dp"

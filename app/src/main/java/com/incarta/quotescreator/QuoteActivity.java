@@ -20,6 +20,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -39,13 +40,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.InterstitialAdListener;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.incarta.quotescreator.database.DataBaseHandler;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -70,8 +71,6 @@ public class QuoteActivity extends AppCompatActivity {
     private final String TAG = QuoteActivity.class.getSimpleName();
     private ImageView imgIcon , iv_save_quote;
     private RoundImage roundedImage;
-    private AdView adView;
-    private InterstitialAd interstitial;
     SharedPreferences sharedPrefs;
     Toolbar toolbar;
     LikeButton favBtn;
@@ -80,6 +79,7 @@ public class QuoteActivity extends AppCompatActivity {
     private int STORAGE_PERMISSION_CODE = 1;
     private int[] images;
     private int imagesIndex = 0;
+    private InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +107,7 @@ public class QuoteActivity extends AppCompatActivity {
         if (Config.SHOW_ADS){
             loadAds();
             loadFullScreenAds();
+            displayInterstitial();
         }
 
         db = new DataBaseHandler(this);
@@ -130,6 +131,26 @@ public class QuoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 popup();
+                if (Config.ADS_NETWORK) {
+                    AdRequest adRequest = new AdRequest.Builder().build();
+
+                    InterstitialAd.load(QuoteActivity.this,Config.INTER_ID, adRequest,
+                            new InterstitialAdLoadCallback() {
+                                @Override
+                                public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                                    // The mInterstitialAd reference will be null until
+                                    // an ad is loaded.
+                                    mInterstitialAd = interstitialAd;
+                                    mInterstitialAd.show((QuoteActivity.this));
+                                }
+
+                                @Override
+                                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                                    // Handle the error
+                                    mInterstitialAd = null;
+                                }
+                            });
+                }
                 Toast.makeText(QuoteActivity.this, "Share", Toast.LENGTH_SHORT).show();
                 startSound();
             }
@@ -139,6 +160,28 @@ public class QuoteActivity extends AppCompatActivity {
         ll_copy_quote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (Config.ADS_NETWORK) {
+                    AdRequest adRequest = new AdRequest.Builder().build();
+
+                    InterstitialAd.load(QuoteActivity.this,Config.INTER_ID, adRequest,
+                            new InterstitialAdLoadCallback() {
+                                @Override
+                                public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                                    // The mInterstitialAd reference will be null until
+                                    // an ad is loaded.
+                                    mInterstitialAd = interstitialAd;
+                                    mInterstitialAd.show((QuoteActivity.this));
+                                }
+
+                                @Override
+                                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                                    // Handle the error
+                                    mInterstitialAd = null;
+                                }
+                            });
+                }
+
                 String text = qte.getQuote() + "- " + qte.getName();
                 copyToClipBoard(text);
                 Toast.makeText(getApplicationContext(),
@@ -464,82 +507,36 @@ public class QuoteActivity extends AppCompatActivity {
             layout.addView(adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
-        }else{
-            com.facebook.ads.AdView mAdView = new com.facebook.ads.AdView(this, Config.FACEBOOK_BANNER_ID, com.facebook.ads.AdSize.BANNER_HEIGHT_50);
-            LinearLayout adContainer = (LinearLayout) findViewById(R.id.adView);
-            adContainer.addView(mAdView);
-            mAdView.loadAd();
         }
     }
 
     private void loadFullScreenAds () {
         if (Config.ADS_NETWORK){
             loadAdmobAds();
-        }else {
-            loadFacebookAds();
         }
     }
 
     private void loadAdmobAds () {
-        final com.google.android.gms.ads.InterstitialAd interstitialAd = new com.google.android.gms.ads.InterstitialAd(this);
-        interstitialAd.setAdUnitId(Config.INTER_ID);
-        AdRequest request = new AdRequest.Builder().build();
-        interstitialAd.loadAd(request);
-        interstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                if (interstitialAd.isLoaded()) {
-                    interstitialAd.show();
-                }
-            }
-        });
-    }
+        if (Config.ADS_NETWORK) {
+            AdRequest adRequest = new AdRequest.Builder().build();
 
-    private void loadFacebookAds () {
-        final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(this, Config.FACEBOOK_INTER_ID);
-        // Create listeners for the Interstitial Ad
-        InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
-                // Interstitial ad displayed callback
-                Log.e(TAG, "Interstitial ad displayed.");
-            }
+            InterstitialAd.load(QuoteActivity.this,Config.INTER_ID, adRequest,
+                    new InterstitialAdLoadCallback() {
+                        @Override
+                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                            // The mInterstitialAd reference will be null until
+                            // an ad is loaded.
+                            mInterstitialAd = interstitialAd;
+                            mInterstitialAd.show((QuoteActivity.this));
+                        }
 
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-                // Interstitial dismissed callback
-                Log.e(TAG, "Interstitial ad dismissed.");
-            }
-
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-                Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                // Interstitial ad is loaded and ready to be displayed
-                Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
-                // Show the ad
-                interstitialAd.show();
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Ad clicked callback
-                Log.d(TAG, "Interstitial ad clicked!");
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
-                Log.d(TAG, "Interstitial ad impression logged!");
-            }
-        };
-        interstitialAd.loadAd(
-                interstitialAd.buildLoadAdConfig()
-                        .withAdListener(interstitialAdListener)
-                        .build());
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            // Handle the error
+                            mInterstitialAd = null;
+                        }
+                    });
+        }
     }
 
     public void doShare() {
@@ -618,8 +615,25 @@ public class QuoteActivity extends AppCompatActivity {
     }
 
     public void displayInterstitial() {
-        if (interstitial.isLoaded()) {
-            interstitial.show();
+        if (Config.ADS_NETWORK) {
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+            InterstitialAd.load(this,Config.INTER_ID, adRequest,
+                    new InterstitialAdLoadCallback() {
+                        @Override
+                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                            // The mInterstitialAd reference will be null until
+                            // an ad is loaded.
+                            mInterstitialAd = interstitialAd;
+                            mInterstitialAd.show(QuoteActivity.this);
+                        }
+
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            // Handle the error
+                            mInterstitialAd = null;
+                        }
+                    });
         }
     }
 

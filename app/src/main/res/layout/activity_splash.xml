@@ -23,7 +23,7 @@
             android:alpha="0.7"
             android:src="@drawable/transprant_bg" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,11 +45,11 @@
         android:layout_marginBottom="5dp">
 
         <TextView
-            android:id="@+id/textview"
+            android:id="@+id/tv_author"
             android:fontFamily="@font/googlesans_bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mayur Kakade"
+            android:text="author name"
             android:gravity="center"
             android:alpha="0.7"
             android:textColor="@android:color/white" />

@@ -1,95 +1,106 @@
 package com.incarta.quotescreator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.incarta.quotescreator.synchronization_service.OnUpdateDatabase;
+import com.incarta.quotescreator.synchronization_service.SynchronizationConstants;
 
 
-
-public class SplashActivity extends Activity implements Runnable {
-
-    PrefManager prf;
-    TextView textView;
-    Utils utils;
-
+public class SplashActivity extends Activity {
+    public static final String TAG = "NetworkTask";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_splash);
 
-        prf = new PrefManager(this);
-        utils = new Utils(this);
 
-        textView = findViewById(R.id.textview);
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Updating New Quotes");
+        progressDialog.setTitle("Please Wait!");
 
-            loadSplashScreen();
-            load();
-        findViewById(android.R.id.content).postDelayed(this, 3000);
+        ((TextView)findViewById(R.id.tv_author)).setText(SynchronizationConstants.Author_Name);
 
-    }
-
-    private void load () {
-        /*if (prf.getString("VPN").equals(BuildConfig.APPLICATION_ID)){
-        }else {
-            finish();
-        }*/
-    }
-
-    private void loadSplashScreen () {
-        //mQueue = Volley.newRequestQueue(this);
-
-        //String uri = PrefManager.URL+Config.USERNAME;
-
-        /*JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, uri, null, new Response.Listener<JSONObject>() {
+        OnUpdateDatabase onUpdateDatabase = new OnUpdateDatabase() {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonArray= response.getJSONArray("Json");
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        JSONObject data = jsonArray.getJSONObject(i);
+            public void onStart() {
+                Toast.makeText(SplashActivity.this, "Checking for updates ...", Toast.LENGTH_SHORT).show();
+            }
 
-                        String PC = data.getString("PC");
-                        String DN = data.getString("DN");
-                        String PN = data.getString("PN");
-                        String UN = data.getString("UN");
-                        String MD = data.getString("MD");
-                        prf.setString("VPC", PC);
-                        prf.setString("VDN", DN);
-                        prf.setString("VPN", PN);
-                        prf.setString("VUN", UN);
-                        prf.setString("VMD", MD);
+            @Override
+            public void onUpdateAvailable() {
+                progressDialog.show();
+            }
 
+            @Override
+            public void onAlreadyUpdated() {
+                Log.d(TAG, "onAlreadyUpdated: ");
+                Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onUpdateDownloading() {
+                Log.d(TAG, "onUpdateDownloading: ");
+            }
+
+            @Override
+            public void onUpdateFailed() {
+                Log.d(TAG, "onUpdateFailed: ");
+                progressDialog.cancel();
+                showFailedDialogues();
+            }
+
+            @Override
+            public void onUpdateSucceed() {
+                Log.d(TAG, "onUpdateSucceed: ");
+                progressDialog.cancel();
+                Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        
+        if (SynchronizationConstants.isSynchronizationEnabled) {
+            SynchronizationConstants.getDatabaseSynchronizerConfig(SplashActivity.this, onUpdateDatabase);
+        } else {
+            Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+
+    }
+
+    private void showFailedDialogues() {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(SplashActivity.this);
+        builder1.setMessage(" Failed to update ! ");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                " Ok ",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
+                });
 
-        mQueue.add(request);*/
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
     }
 
-    @Override
-    public void run() {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            finish();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
 }

@@ -1,7 +1,7 @@
 package com.incarta.quotescreator;
 
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,24 +12,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdError;
-import com.facebook.ads.InterstitialAd;
-import com.facebook.ads.InterstitialAdListener;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.incarta.quotescreator.database.DataBaseHandler;
 import com.mig35.carousellayoutmanager.CarouselLayoutManager;
 import com.mig35.carousellayoutmanager.CarouselZoomPostLayoutListener;
 
@@ -103,10 +99,10 @@ public class QuotesActivity extends AppCompatActivity {
 
 
         dataList = findViewById(R.id.quotesList);
-        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL);
-        layoutManager.setCircleLayout(true);
-        dataList.setLayoutManager(layoutManager);
-        layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+//        final CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.VERTICAL);
+//        layoutManager.setCircleLayout(true);
+        dataList.setLayoutManager(new LinearLayoutManager(this));
+//        layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
 
 
 
@@ -204,82 +200,38 @@ public class QuotesActivity extends AppCompatActivity {
             layout.addView(adView);
             AdRequest adRequest = new AdRequest.Builder().build();
             adView.loadAd(adRequest);
-        }else{
-            com.facebook.ads.AdView mAdView = new com.facebook.ads.AdView(this, Config.FACEBOOK_BANNER_ID, com.facebook.ads.AdSize.BANNER_HEIGHT_50);
-            LinearLayout adContainer = (LinearLayout) findViewById(R.id.adView);
-            adContainer.addView(mAdView);
-            mAdView.loadAd();
         }
     }
 
     private void loadFullScreenAds () {
         if (Config.ADS_NETWORK){
             loadAdmobAds();
-        }else {
-            loadFacebookAds();
         }
     }
 
+    InterstitialAd mInterstitialAd;
+
     private void loadAdmobAds () {
-        final com.google.android.gms.ads.InterstitialAd interstitialAd = new com.google.android.gms.ads.InterstitialAd(this);
-        interstitialAd.setAdUnitId(Config.INTER_ID);
-        AdRequest request = new AdRequest.Builder().build();
-        interstitialAd.loadAd(request);
-        interstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                if (interstitialAd.isLoaded()) {
-                    interstitialAd.show();
-                }
-            }
-        });
-    }
+        if (Config.ADS_NETWORK) {
+            AdRequest adRequest = new AdRequest.Builder().build();
 
-    private void loadFacebookAds () {
-        final InterstitialAd interstitialAd = new InterstitialAd(this, Config.FACEBOOK_INTER_ID);
-        // Create listeners for the Interstitial Ad
-        InterstitialAdListener interstitialAdListener = new InterstitialAdListener() {
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
-                // Interstitial ad displayed callback
-                Log.e(TAG, "Interstitial ad displayed.");
-            }
+            InterstitialAd.load(this,Config.INTER_ID, adRequest,
+                    new InterstitialAdLoadCallback() {
+                        @Override
+                        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                            // The mInterstitialAd reference will be null until
+                            // an ad is loaded.
+                            mInterstitialAd = interstitialAd;
+                            mInterstitialAd.show(QuotesActivity.this);
+                        }
 
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-                // Interstitial dismissed callback
-                Log.e(TAG, "Interstitial ad dismissed.");
-            }
-
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-                Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                // Interstitial ad is loaded and ready to be displayed
-                Log.d(TAG, "Interstitial ad is loaded and ready to be displayed!");
-                // Show the ad
-                interstitialAd.show();
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Ad clicked callback
-                Log.d(TAG, "Interstitial ad clicked!");
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
-                Log.d(TAG, "Interstitial ad impression logged!");
-            }
-        };
-        interstitialAd.loadAd(
-                interstitialAd.buildLoadAdConfig()
-                        .withAdListener(interstitialAdListener)
-                        .build());
+                        @Override
+                        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                            // Handle the error
+                            mInterstitialAd = null;
+                        }
+                    });
+        }
     }
 
     @Override
